@@ -1,8 +1,10 @@
-import {StyleSheet} from 'react-native';
-import {colors} from '../../styles/colors';
+import { StyleSheet } from 'react-native';
+import { colors } from '../../styles/colors';
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
+        color: "#8784B6"
+
     },
     panel: {
         flex: 1,
@@ -15,6 +17,5 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: 'space-around',
         marginBottom: 20
-        
     }
 });
