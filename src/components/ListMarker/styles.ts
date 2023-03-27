@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center'
     },
     textMarker: {
-        marginleft: 5,
+        marginLeft: 5,
         fontSize: 20
     }
 })

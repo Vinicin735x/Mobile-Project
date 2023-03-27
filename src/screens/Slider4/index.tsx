@@ -5,13 +5,12 @@ import {
 } from '../../components';
 import { styles } from './styles';
 export function Slider4({ setPageI }: IPage) {
-    const slide1 = require("../../assets/slide1.png")
     const slide1Texts = [
         { id: '1', text: 'Receba seu pedido dentro do prazo).'},
         { id: '2', text: 'Seu pedido sempre será entregue inteiro e nunca gelado ou trocado.'},
     ]
     return (
-        <ImageBackground source={slide1} style={styles.container} >
+        <View style={styles.container} >
             <View style={styles.panel}>
                 <ComponentTitleSlider titleI='Segurança e pontualidade' />
                 <FlatList
@@ -23,12 +22,12 @@ export function Slider4({ setPageI }: IPage) {
                 />
             </View>
             <View style={styles.buttonSlider}>
-                <ComponentButtonSlider onPressI={() => setPageI(1)} />
-                <ComponentButtonSlider onPressI={() => setPageI(2)} />
-                <ComponentButtonSlider onPressI={() => setPageI(3)} />
-                <ComponentButtonSlider onPressI={() => setPageI(4)} />
+                <ComponentButtonSlider onPressI={() => setPageI(1)} cor={false} />
+                <ComponentButtonSlider onPressI={() => setPageI(2)} cor={false} />
+                <ComponentButtonSlider onPressI={() => setPageI(3)} cor={false} />
+                <ComponentButtonSlider onPressI={() => setPageI(4)} cor={true} />
             </View>
-        </ImageBackground>
+        </View>
     );
 
 }

@@ -3,7 +3,7 @@ import { colors } from '../../styles/colors';
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        color: "#090486"
+        backgroundColor: colors.secondary
 
     },
     panel: {

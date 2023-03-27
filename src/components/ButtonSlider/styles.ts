@@ -1,11 +1,19 @@
-import {StyleSheet} from 'react-native';
-import {colors} from '../../styles/colors';
+import { StyleSheet } from 'react-native';
+import { colors } from '../../styles/colors';
+
 
 export const styles = StyleSheet.create({
     ball: {
         width: 30,
         height: 30,
-        backgroundcolor: colors.thirdLight,
+        backgroundColor: colors.thirdLight,
+        borderRadius: 15
+        
+    },
+    ballCor: {
+        width: 30,
+        height: 30,
+        backgroundColor: colors.black,
         borderRadius: 15
     }
 })

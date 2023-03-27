@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
     title: {
         fontSize: 40,
         marginTop: 20,
-        margni: 10,
+        margin: 10,
         textAlign: 'center'
     },
 })
