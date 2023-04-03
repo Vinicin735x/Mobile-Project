@@ -1,4 +1,5 @@
-import { FlatList, ImageBackground, View } from 'react-native';
+import { FlatList, ImageBackground, View, Text } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { IPage } from '../../../App';
 import {
     ComponentButtonSlider, ComponentListMarker, ComponentTitleSlider
@@ -20,12 +21,18 @@ export function Slider4({ setPageI }: IPage) {
                     }
                     keyExtractor={(item) => item.id}
                 />
+                <TouchableOpacity style={styles.buttonEntrar} onPress={
+                    () => setPageI(5)
+                }>
+                    <Text style={styles.buttonEntrarText}>Entrar</Text>
+                </TouchableOpacity>
             </View>
             <View style={styles.buttonSlider}>
                 <ComponentButtonSlider onPressI={() => setPageI(1)} cor={false} />
                 <ComponentButtonSlider onPressI={() => setPageI(2)} cor={false} />
                 <ComponentButtonSlider onPressI={() => setPageI(3)} cor={false} />
                 <ComponentButtonSlider onPressI={() => setPageI(4)} cor={true} />
+                <ComponentButtonSlider onPressI={() => setPageI(5)} cor={false} />
             </View>
         </View>
     );
