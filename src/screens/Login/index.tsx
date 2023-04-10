@@ -34,7 +34,7 @@ export function Login() {
                     style={styles.input}
                 />    
                 </View>
-                <ComponentButtonInterface onPressI={() => {setPageI(1)}} title="Entrar" type="primary" />
+                <ComponentButtonInterface title="Entrar" type="primary" onPressI={() => {console.log("Login")}}  />
             </KeyboardAvoidingView>
             <Text>insira seus dados para realizar login</Text>
         </View>
