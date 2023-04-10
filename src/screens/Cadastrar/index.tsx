@@ -5,14 +5,12 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { TextInput } from "react-native-gesture-handler";
 import { colors } from "../../styles/colors";
 import { FontAwesome5 } from '@expo/vector-icons';
-import { ButtonInterface } from "../../components/ButtonInterface";
-import { ComponentButtonInterface } from "../../components";
 
-export function Login() {
+export function Cadastrar() {
     return (
         <View style={styles.container}>
             <KeyboardAvoidingView>
-                <Text style={styles.title}>Login</Text>
+                <Text style={styles.title}>Cadastro</Text>
                 <View style={styles.formRow}>
                 <MaterialIcons name="email" style={styles.icon} />
                 <TextInput
@@ -23,7 +21,6 @@ export function Login() {
                     style={styles.input}
                 />    
                 </View>
-
                 <View style={styles.formRow}>
                 <FontAwesome5 name="key" style={styles.icon} />
                 <TextInput
@@ -34,9 +31,8 @@ export function Login() {
                     style={styles.input}
                 />    
                 </View>
-                <ComponentButtonInterface onPressI={() => {setPageI(1)}} title="Entrar" type="primary" />
             </KeyboardAvoidingView>
-            <Text>insira seus dados para realizar login</Text>
+            <Text>insira seus dados para realizar seu cadastro</Text>
         </View>
 
             

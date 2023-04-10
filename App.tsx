@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import { Dispatch, SetStateAction, useState } from 'react';
 import {
-ScreenSlider1, ScreenSlider2, ScreenSlider3, ScreenSlider4
+ScreenSlider1, ScreenSlider2, ScreenSlider3, ScreenSlider4, ScreenLogin, ScreenCadastrar
 } from "./src/screens"
 import{Navigation} from "./src/navigations";
 export interface IPage {
