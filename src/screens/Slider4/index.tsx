@@ -1,3 +1,4 @@
+import React from 'react';
 import { FlatList, ImageBackground, View, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { IPage } from '../../../App';

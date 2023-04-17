@@ -4,6 +4,7 @@ import {
 ScreenSlider1, ScreenSlider2, ScreenSlider3, ScreenSlider4, ScreenLogin, ScreenCadastrar
 } from "./src/screens"
 import{Navigation} from "./src/navigations";
+import React from 'react';
 export interface IPage {
   setPageI: Dispatch<SetStateAction<number>>
 }
