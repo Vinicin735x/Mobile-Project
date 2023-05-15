@@ -1,3 +1,4 @@
+import React from "react";
 import { TouchableOpacityProps,TouchableOpacity, Text } from "react-native";
 import {styles} from './styles'
 export interface IBInterface extends TouchableOpacityProps {

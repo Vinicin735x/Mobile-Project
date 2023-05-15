@@ -1,12 +1,12 @@
-import React from "react";
-import{View, Text, KeyboardAvoidingView} from "react-native"
-import{styles} from "./styles"
-import { MaterialIcons, AntDesign } from '@expo/vector-icons';
-import { TextInput } from "react-native-gesture-handler";
-import { colors } from "../../styles/colors";
-import { FontAwesome5 } from '@expo/vector-icons';
+import React from 'react';
+import { View, Text, KeyboardAvoidingView, TextInput} from "react-native"
+import { styles } from "./styles"
+import { MaterialIcons, Fontisto, FontAwesome, AntDesign, FontAwesome5  } from '@expo/vector-icons';
+import { colors } from '../../styles/colors';
+import { ComponentButtonInterface } from '../../components';
+import { LoginTypes } from '../../navigations/login.navigation';
 
-export function Cadastrar() {
+export function Cadastrar({navigation}: LoginTypes) {
     return (
         <View style={styles.container}>
             <KeyboardAvoidingView>
@@ -40,9 +40,11 @@ export function Cadastrar() {
                     autoCapitalize="none"
                     style={styles.input}
                 />    
-                </View>
+                 </View>
+            <ComponentButtonInterface title='Salvar' type='primary' onPressI={()=>{console.log('Drawer')}} />
+            <ComponentButtonInterface title='Voltar' type='secondary' onPressI={()=> navigation.navigate ('Login')} />
+        
             </KeyboardAvoidingView>
-            <Text>insira seus dados para realizar seu cadastro</Text>
         </View>
 
             
