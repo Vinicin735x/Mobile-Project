@@ -1,24 +1,42 @@
-import { Camera, CameraCapturedPicture, CameraType } from 'expo-camera';
+import { Camera, CameraCapturedPicture, CameraType, FaceDetectionResult } from 'expo-camera';
 import React, { useRef } from 'react';
 import { useState } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View , Image, Alert} from 'react-native';
+import { Button, StyleSheet, Text, TouchableOpacity, View, Image, Alert } from 'react-native';
 import { ComponentButtonInterface } from '../../components';
-import {styles} from "./styles"
+import { styles } from "./styles"
 import * as MediaLibrary from "expo-media-library"
 import * as ImagePicker from 'expo-image-picker'
+import * as FaceDetector from 'expo-face-detector'
+import { BarCodeScanner, BarCodeScannerResult } from 'expo-barcode-scanner';
+
 interface IPhoto {
-    height: string
-    uri: string
-    width: string
-}    
+  height: string
+  uri: string
+  width: string
+}
 
 export function CameraScreen() {
   const [type, setType] = useState(CameraType.back);
   const [permissionCamera, requestPermissionCamera] = Camera.useCameraPermissions();
   const [permissionMedia, requestPermissionMedia] = MediaLibrary.usePermissions()
   const [photo, setPhoto] = useState<CameraCapturedPicture | ImagePicker.ImagePickerAsset>()
-  const ref= useRef<Camera>(null)
+  const ref = useRef<Camera>(null)
   const [takePhoto, setTakePhoto] = useState(false)
+  const [permissionQrCode, requestPermissionQrCode] = BarCodeScanner.usePermissions();
+  const [scanned, setScanned] = useState(false);
+  const [face, setFace] = useState<FaceDetector.FaceFeature>()
+  const handleBarCodeScanned = ({type, data }: BarCodeScannerResult) => {
+    setScanned(true);
+    alert(data);
+  };
+  const handleFacesDetected = ({faces}: FaceDetectionResult): void => {
+    if (faces.length > 0) {
+      const FaceDetect = faces[0] as FaceDetector.FaceFeature
+      setFace(FaceDetect)
+    } else {
+      setFace(undefined)
+    }
+  }
 
   if (!permissionCamera) {
     // Camera permissions are still loading
@@ -54,9 +72,10 @@ export function CameraScreen() {
 
   async function takePicture() {
     if (ref.current) {
-        const picture = await ref.current.takePictureAsync()
-        console.log(picture)
-        setPhoto(picture)
+      const picture = await ref.current.takePictureAsync()
+      console.log(picture)
+      setPhoto(picture)
+      setTakePhoto(true)
     }
   }
 
@@ -79,15 +98,35 @@ export function CameraScreen() {
 
   return (
     <View style={styles.container}>
-        <ComponentButtonInterface title='Flip' type='third' onPressI={toggleCameraType} />
-      <Camera style={styles.camera} type={type} ref={ref} />
-      <ComponentButtonInterface title='Tirar foto' type='third' onPressI={takePicture} /> 
-      
-      <ComponentButtonInterface title='Salvar foto' type='third' onPressI={savePhoto} /> 
-      <ComponentButtonInterface title='Abrir imagem' type='third' onPressI={pickImage} /> 
-      {photo && photo.uri && (
-        <Image source={{uri: photo.uri}} style={styles.img} />
-      )} 
+      {!takePhoto ? (
+        <>
+          <ComponentButtonInterface title='Flip' type='third' onPressI={toggleCameraType} />
+          <Camera style={styles.camera} type={type} ref={ref} 
+            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+            onFacesDetected={handleFacesDetected}
+            faceDetectorSettings={{
+              mode:FaceDetector.FaceDetectorMode.accurate,
+              detectLandmarks: FaceDetector.FaceDetectorLandmarks.all,
+              runClassifications: FaceDetector.FaceDetectorClassifications.all,
+              minDetectionInterval: 1000,
+              tracking: true,
+            }}
+            />
+          <ComponentButtonInterface title='Tirar foto' type='third' onPressI={takePicture} />
+        </>
+      ) : (
+        <>
+          <ComponentButtonInterface title='Salvar foto' type='third' onPressI={savePhoto} />
+          <ComponentButtonInterface title='Abrir imagem' type='third' onPressI={pickImage} />
+          <ComponentButtonInterface title='Voltar' type='third' onPressI={setTakePhoto(false)} />
+          {photo && photo.uri && (
+            <Image source={{ uri: photo.uri }} style={styles.img} />
+          )}
+        </>
+      )}
+
+
+
     </View>
   );
 }
