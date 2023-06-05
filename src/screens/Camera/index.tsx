@@ -118,7 +118,7 @@ export function CameraScreen() {
         <>
           <ComponentButtonInterface title='Salvar foto' type='third' onPressI={savePhoto} />
           <ComponentButtonInterface title='Abrir imagem' type='third' onPressI={pickImage} />
-          <ComponentButtonInterface title='Voltar' type='third' onPressI={setTakePhoto(false)} />
+          <ComponentButtonInterface title='Voltar' type='third' onPressI={takePicture} />
           {photo && photo.uri && (
             <Image source={{ uri: photo.uri }} style={styles.img} />
           )}
