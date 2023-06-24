@@ -7,6 +7,7 @@ import { colors } from '../../styles/colors';
 import { API_GOOGLE } from '@env'
 import { GooglePlaceData, GooglePlaceDetail, GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import MapViewDirections from 'react-native-maps-directions';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 type Icoords = {
     latitude: number
@@ -29,14 +30,14 @@ export function LocationScreen() {
                 longitude: details?.geometry.location.lng,
                 latitudeDelta: 0.004,
                 longitudeDelta: 0.004
-                
+
             })
             if (marker) {
                 setMarker([...marker, {
-                latitude: details?.geometry.location.lat,
-                longitude: details?.geometry.location.lng,
-                latitudeDelta: 0.004,
-                longitudeDelta: 0.004
+                    latitude: details?.geometry.location.lat,
+                    longitude: details?.geometry.location.lng,
+                    latitudeDelta: 0.004,
+                    longitudeDelta: 0.004
                 }])
             }
         }
@@ -59,7 +60,7 @@ export function LocationScreen() {
                 latitudeDelta: 0.009,
                 longitudeDelta: 0.009
             })
-            setMarker ([{
+            setMarker([{
                 latitude: location.coords.latitude,
                 longitude: location.coords.longitude,
                 latitudeDelta: 0.009,
@@ -71,11 +72,11 @@ export function LocationScreen() {
                 distanceInterval: 1
             }, (location) => {
                 setCoords((prevState) => [...prevState, location.coords])
-                
+
             });
         })();
 
-        return  () => {
+        return () => {
             if (subscription) {
                 subscription.remove()
             }
@@ -85,24 +86,71 @@ export function LocationScreen() {
     let text = 'Waiting..';
     if (errorMsg) {
         text = errorMsg;
+
     } else if (location) {
         text = JSON.stringify(location);
+    } else if (destination) {
+        text = JSON.stringify(destination)
     }
 
+
+
     return (
-        <View style={styles.container}>
+        <View style={styles.map}>
+            <GooglePlacesAutocomplete
+                styles={{ container: styles.searchContainer, textInput: styles.searchInput }}
+                placeholder="para onde?"
+                fetchDetails={true}
+                GooglePlacesDetailsQuery={{ fields: "geometry" }}
+                enablePoweredByContainer={false}
+                query={{
+                    key: API_GOOGLE,
+                    language: 'pt-BR'
+                }}
+                onFail={setErrorMsg}
+                onPress={handleDestination}
+            />
             {region ? (
-                <MapView region={region} style={styles.map} showsUserLocation={true} >
+                <MapView
+                    ref={mapRef}
+                    region={region}
+                    style={styles.map}
+                    showsUserLocation={true}
+                >
                     {marker && marker.map((i) => (
-                        <Marker key={i.latitude} coordinate={i} />
+                        <Marker key={i.latitude} coordinate={i}>
+                            <MaterialCommunityIcons name="cellphone-marker" size={48} color={colors.black} />
+                        </Marker>
                     ))}
                     {coords && <Polyline
-                            coordinates={coords}
+                        coordinates={coords}
+                        strokeColor={colors.black}
+                        strokeWidth={7} />}
+                    {destination && (
+                        <MapViewDirections
+                            origin={region}
+                            destination={destination}
+                            apikey={API_GOOGLE}
                             strokeColor={colors.black}
                             strokeWidth={7}
-                    />}
-                    </MapView>
-                    
+                            lineDashPattern={[0]}
+                            onReady={(result) => {
+                                mapRef.current?.fitToCoordinates(result.coordinates, {
+                                    edgePadding: {
+                                        top: 24,
+                                        bottom: 24,
+                                        left: 24,
+                                        right: 24
+                                    }
+                                })
+                            }}
+
+                        />
+
+
+                    )}
+
+                </MapView>
             ) : (
                 <Text style={styles.paragraph}>{text}</Text>
             )}
