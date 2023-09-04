@@ -1,5 +1,5 @@
-import React from "react";
-import{View, Text, KeyboardAvoidingView} from "react-native"
+import React, { useState } from "react";
+import{View, Text, KeyboardAvoidingView, Alert} from "react-native"
 import{styles} from "./styles"
 import { MaterialIcons } from '@expo/vector-icons';
 import { TextInput } from "react-native-gesture-handler";
@@ -8,8 +8,30 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { ButtonInterface } from "../../components/ButtonInterface";
 import { ComponentButtonInterface } from "../../components";
 import { LoginTypes } from "../../navigations/login.navigation";
+import { IAutenticate } from "../../services/data/User";
+import { Axios, AxiosError } from "axios";
+import { useAuth } from "../../hooks/auth";
 
 export function Login({navigation}: LoginTypes) {
+    const { signIn } = useAuth();
+    const [data,setData] = useState<IAutenticate>();
+    const [isLoading, setIsLoading] = useState(true);
+    async function handleSignIn(){
+        try{
+            setIsLoading(true);
+            if(data?.email && data.password){
+                await signIn(data);
+            } else {
+                Alert.alert("Preencha todos os campos");
+                setIsLoading(false);
+            }
+        }catch(error){
+            const err = error as AxiosError;
+            const message = err.response?.data as string
+            Alert.alert(message)
+            setIsLoading(false)
+        }
+    }
     return (
         <View style={styles.container}>
             <KeyboardAvoidingView>
