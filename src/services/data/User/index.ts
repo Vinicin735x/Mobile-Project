@@ -30,5 +30,6 @@ class UserData {
     login(data:IAutenticate) {
         return api.post<IUserLogin>('/login', data)
     }
+    
 }
 export default new UserData()
